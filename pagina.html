@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolveIQ - Una mano al docente</title>
+<link rel="stylesheet" href="pagina.css">
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>SolveIQ</h1>
+  </div>
+  <div class="header-right">
+    <button onclick="window.location.href='intento1.html'">Iniciar Sesión</button>
+  </div>
+</header>
+
+
+
+<div class="stats">
+  <div class="stat-card"><h2></h2><p>Tiempo Ahorrado</p></div>
+  <div class="stat-card"><h2></h2><p>Exámenes Creados</p></div>
+  <div class="stat-card"><h2></h2><p>Docentes activos</p></div>
+</div>
+
+
+
+
+<nav>
+  <a class="active" onclick="showSection('planificaciones')">Planificaciones</a>
+  <a onclick="showSection('examenes')">Exámenes</a>
+  <a>Calificaciones</a>
+</nav>
+
+
+
+
+<!-- PLANIFICACIONES -->
+<div id="planificaciones" class="main-container">
+  <h2>Generador de Planificaciones</h2>
+  <div class="form-container">
+    <div class="form-section">
+      <h3>Configuración de la Planificación</h3>
+      <div class="form-group"><label>Materia</label><input type="text" placeholder="Ej. Matemáticas, Ciencias..."></div>
+      <div class="form-group"><label>Grado</label>
+        <select>
+          <option>Seleccionar grado</option>
+          <option>1° Primer ciclo</option>
+          <option>2° Primer ciclo</option>
+          <option>3° Primer ciclo</option>
+          <option>4° Segundo ciclo</option>
+          <option>5° Segundo ciclo</option>
+          <option>6° Segundo ciclo</option>
+          <option>7° Tercer ciclo</option>
+          <option>8° Tercer ciclo</option>
+          <option>9° Tercer ciclo</option>
+          <option>1° Bachillerato</option>
+          <option>2° Bachillerato</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Tema de la Semana</label><input type="text" placeholder="Ej. Fracciones, Sistema Solar..."></div>
+      <div class="form-group"><label>Objetivos de Aprendizaje</label><input type="text" placeholder="Escribe los objetivos..."></div>
+      <div class="form-group"><label>Duración por Clase</label>
+        <select>
+          <option>Seleccionar duración</option>
+          <option>30 minutos</option>
+          <option>45 minutos</option>
+          <option>60 minutos</option>
+          <option>90 minutos</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Plantilla</label>
+        <select>
+          <option>Seleccionar plantilla</option>
+          <option>Básica</option>
+          <option>Detallada</option>
+        </select>
+      </div>
+      <button class="btn-primary">Generar Planificación</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- EXÁMENES -->
+<!-- EXÁMENES -->
+<div id="examenes" class="main-container">
+  <h2>Creador de Exámenes</h2>
+  <div class="form-container">
+   
+    <!-- Panel Izquierdo: Configuración del Examen -->
+    <div class="form-section">
+      <h3>Configuración del Examen</h3>
+      <p style="color:#666; font-size:14px;">Configura los parámetros básicos de tu examen</p>
+
+
+
+
+      <div class="form-group">
+        <label>Título del Examen *</label>
+        <input type="text" placeholder="ej. Evaluación de Fracciones - Primer Parcial">
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label>Materia *</label>
+        <input type="text" placeholder="ej. Matemáticas">
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label>Grado *</label>
+        <select>
+          <option>Seleccionar grado</option>
+          <option>1°</option><option>2°</option><option>3°</option>
+        </select>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label>Duración del Examen</label>
+        <select>
+          <option>Seleccionar duración</option>
+          <option>30 min</option><option>60 min</option><option>90 min</option>
+        </select>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label>Nivel de Dificultad</label>
+        <select>
+          <option>Seleccionar dificultad</option>
+          <option>Básico</option><option>Intermedio</option><option>Avanzado</option>
+        </select>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label>Instrucciones</label>
+        <textarea placeholder="Instrucciones especiales para el examen..."></textarea>
+      </div>
+
+
+
+
+      <button class="btn-primary">Generar Examen Automático</button>
+    </div>
+
+
+
+
+    <!-- Panel Derecho: Opciones de Generación -->
+    <div class="form-section">
+      <h3>Opciones de Generación</h3>
+      <p style="color:#666; font-size:14px;">Personaliza el tipo y cantidad de preguntas</p>
+
+
+
+
+      <div class="option">
+        <div>
+          <strong>Preguntas de Opción Múltiple</strong>
+          <p style="margin:0;color:#666;">Preguntas con 4 opciones</p>
+        </div>
+        <span>6-8 preguntas</span>
+      </div>
+
+
+
+
+      <div class="option">
+        <div>
+          <strong>Preguntas Verdadero/Falso</strong>
+          <p style="margin:0;color:#666;">Preguntas de selección binaria</p>
+        </div>
+        <span>4-6 preguntas</span>
+      </div>
+
+
+
+
+      <div class="option">
+        <span>Generación Inteligente</span>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+
+
+
+      <div class="option">
+        <span>Incluir Gráficos</span>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+
+
+
+      <div class="option">
+        <span>Barajar Preguntas</span>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+
+
+
+      <div class="hint-box">
+        <strong>💡 Sugerencia IA</strong>
+        <p>Basándome en el tema seleccionado, recomiendo incluir preguntas prácticas y ejemplos cotidianos para mejor comprensión.</p>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+<script>
+function showSection(sectionId) {
+  document.getElementById('planificaciones').style.display = 'none';
+  document.getElementById('examenes').style.display = 'none';
+  document.getElementById(sectionId).style.display = 'block';
+
+
+
+
+  // Cambiar la clase activa del nav
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+
+
+
+// Mostrar planificaciones por defecto
+showSection('planificaciones');
+</script>
+
+
+
+
+</body>
+</html>
