@@ -23,7 +23,6 @@
 </head>
 <body>
 
-
 <header>
   <div class="header-left">
     <h1>SolveIQ</h1>
@@ -33,13 +32,11 @@
   </div>
 </header>
 
-
 <div class="stats">
   <div class="stat-card"><h2></h2><p>Tiempo Ahorrado</p></div>
   <div class="stat-card"><h2></h2><p>Exámenes Creados</p></div>
   <div class="stat-card"><h2></h2><p>Docentes activos</p></div>
 </div>
-
 
 <!-- Menú de navegación -->
 <nav>
@@ -47,7 +44,6 @@
   <a onclick="showSection('examenes', this)">Exámenes</a>
   <a onclick="showSection('calificaciones', this)">Calificaciones</a>
 </nav>
-
 
 <!-- PLANIFICACIONES -->
 <div id="planificaciones" class="main-container">
@@ -95,12 +91,10 @@
   </div>
 </div>
 
-
 <!-- EXÁMENES -->
 <div id="examenes" class="main-container" style="display:none;">
   <h2>Creador de Exámenes</h2>
   <div class="form-container">
-    <!-- Panel Izquierdo: Configuración del Examen -->
     <div class="form-section">
       <h3>Configuración del Examen</h3>
       <p style="color:#666; font-size:14px;">Configura los parámetros básicos de tu examen</p>
@@ -127,9 +121,6 @@
       <div class="form-group"><label>Instrucciones</label><textarea placeholder="Instrucciones especiales para el examen..."></textarea></div>
       <button class="btn-primary">Generar Examen Automático</button>
     </div>
-
-
-    <!-- Panel Derecho: Opciones de Generación -->
     <div class="form-section">
       <h3>Opciones de Generación</h3>
       <p style="color:#666; font-size:14px;">Personaliza el tipo y cantidad de preguntas</p>
@@ -143,7 +134,6 @@
   </div>
 </div>
 
-
 <!-- CALIFICACIONES -->
 <div id="calificaciones" class="main-container" style="display:none;">
   <h2>Gestión de Calificaciones</h2>
@@ -153,26 +143,38 @@
       <h3>Configurar Calificaciones</h3>
       <p style="color:#666; font-size:14px;">Configura los datos básicos de tu planilla</p>
 
-
       <div class="form-group"><label>Nombre de la Institución *</label><input type="text" id="institucion" oninput="updatePreview()"></div>
       <div class="form-group"><label>Nombre del Profesor *</label><input type="text" id="profesor" oninput="updatePreview()"></div>
       <div class="form-group"><label>Materia *</label><input type="text" id="materia" oninput="updatePreview()"></div>
-      <div class="form-group"><label>Grado *</label>
+
+      <div class="form-group">
+        <label>Grado *</label>
         <select id="grado" onchange="updatePreview()">
           <option>Seleccionar grado</option>
-          <option>1°</option><option>2°</option><option>3°</option>
+          <option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option>
+          <option>6°</option><option>7°</option><option>8°</option><option>9°</option>
+          <option>1° Bachillerato</option><option>2° Bachillerato</option>
         </select>
       </div>
-      <div class="form-group"><label>Fecha</label><input type="date" id="fecha" oninput="updatePreview()"></div>
-      <div class="form-group"><label>Cantidad de Notas</label><input type="number" id="cantidadNotas" min="1" max="20" value="5" oninput="updateHeaders()"></div>
 
+      <div class="form-group">
+        <label>Sección</label>
+        <select id="seccion" onchange="updatePreview()">
+          <option>Seleccionar sección</option>
+          <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Fecha</label><input type="date" id="fecha" oninput="updatePreview()"></div>
+      <div class="form-group"><label>Cantidad de Notas</label><input type="number" id="cantidadNotas" min="1" max="10" value="5" oninput="updateHeaders()"></div>
 
       <button class="btn-primary" onclick="addStudent()">➕ Agregar Alumno</button>
       <hr style="margin:15px 0;">
-      <button class="btn-primary" onclick="exportExcel()">📥 Exportar Excel</button>
-      <button class="btn-primary" onclick="exportPDF()">📄 Exportar PDF</button>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-primary" onclick="exportExcel()">📥 Exportar Excel</button>
+        <button class="btn-primary" onclick="exportPDF()">📄 Exportar PDF</button>
+      </div>
     </div>
-
 
     <!-- Panel Derecho (Inputs dinámicos) -->
     <div class="form-section" style="flex:2;">
@@ -182,80 +184,72 @@
     </div>
   </div>
 
-
   <!-- Vista previa en tiempo real -->
   <div style="margin-top:30px;" id="preview-section">
     <h3>Vista Previa</h3>
-    <table id="preview-table">
-      <thead>
-        <tr id="header-row">
-          <th>Institución</th>
-          <th>Profesor</th>
-          <th>Materia</th>
-          <th>Grado</th>
-          <th>Fecha</th>
-          <th>Alumno</th>
-          <!-- Notas dinámicas -->
-          <th>Promedio</th>
-        </tr>
-      </thead>
+    <table id="preview-table" style="border-collapse:collapse;width:100%;text-align:left;" border="1">
+      <thead id="preview-header"></thead>
       <tbody></tbody>
     </table>
   </div>
 </div>
 
-
-<!-- LIBRERÍAS PARA EXPORTAR -->
+<!-- LIBRERÍAS -->
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-
-<!-- SCRIPT PARA SECCIONES Y CALIFICACIONES -->
 <script>
+// === FUNCIÓN PARA CAMBIAR SECCIONES ===
 function showSection(sectionId, el) {
-  // Ocultar todas las secciones
   document.getElementById('planificaciones').style.display = 'none';
   document.getElementById('examenes').style.display = 'none';
   document.getElementById('calificaciones').style.display = 'none';
-  // Mostrar solo la seleccionada
   document.getElementById(sectionId).style.display = 'block';
-  // Cambiar clase activa del nav
   document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
   if (el) el.classList.add('active');
 }
-showSection('planificaciones', document.querySelector('nav a'));
 
-
-// ---- CALIFICACIONES DINÁMICAS ----
+// === CALIFICACIONES ===
 let students = [];
-let cantidadNotas = 5; // default
-
+let cantidadNotas = 5;
 
 function updateHeaders() {
-  cantidadNotas = parseInt(document.getElementById('cantidadNotas').value) || 1;
-  // Actualizar cabecera de notas dinámicamente
-  const headerRow = document.getElementById('header-row');
-  headerRow.innerHTML = `
-    <th>Institución</th>
-    <th>Profesor</th>
-    <th>Materia</th>
-    <th>Grado</th>
-    <th>Fecha</th>
-    <th>Alumno</th>
-    ${Array.from({length:cantidadNotas}).map((_,i)=>`<th>Nota ${i+1}</th>`).join('')}
-    <th>Promedio</th>
+  cantidadNotas = Math.max(1, Math.min(10, parseInt(document.getElementById('cantidadNotas').value)||1));
+
+  const institucion=document.getElementById('institucion').value;
+  const profesor=document.getElementById('profesor').value;
+  const materia=document.getElementById('materia').value;
+  const grado=document.getElementById('grado').value;
+  const seccion=document.getElementById('seccion').value;
+  const fecha=document.getElementById('fecha').value;
+
+  // columnas reales = 1 alumno + cantidadNotas + 1 promedio
+  const totalCols = 2 + cantidadNotas;
+
+  const header=document.getElementById('preview-header');
+  header.innerHTML=`
+    <tr><th colspan="${totalCols}">Institución: ${institucion}</th></tr>
+    <tr><th colspan="${totalCols}">Docente: ${profesor}</th></tr>
+    <tr><th colspan="${totalCols}">Materia: ${materia}</th></tr>
+    <tr>
+      <th colspan="${Math.ceil(totalCols/2)}">Grado: ${grado}</th>
+      <th colspan="${Math.floor(totalCols/2)}">Sección: ${seccion} &nbsp;&nbsp; Fecha: ${fecha}</th>
+    </tr>
+    <tr>
+      <th>Alumno</th>
+      ${Array.from({length:cantidadNotas}).map((_,i)=>`<th>Nota ${i+1}</th>`).join('')}
+      <th>Promedio</th>
+    </tr>
   `;
   rebuildStudentInputs();
   updatePreview();
 }
 
-
 function rebuildStudentInputs() {
   const container = document.getElementById('students-container');
   container.innerHTML = '';
   students.forEach((stu,index)=>{
-    // asegurar notas
-    if(stu.notas.length!==cantidadNotas) {
+    if(stu.notas.length!==cantidadNotas){
       stu.notas.length=cantidadNotas;
       stu.notas.fill('');
     }
@@ -263,59 +257,64 @@ function rebuildStudentInputs() {
     studentDiv.className='student-row';
     studentDiv.style.marginBottom='10px';
     studentDiv.innerHTML = `
-      <input type="text" placeholder="Nombre del Alumno" value="${stu.nombre}" oninput="updateStudentName(${index}, this.value)" style="width:150px;">
+      <input type="text" placeholder="Apellidos" value="${stu.apellidos||''}" 
+        oninput="students[${index}].apellidos=this.value;updatePreview();" style="width:150px;">
+      <input type="text" placeholder="Nombres" value="${stu.nombres||''}" 
+        oninput="students[${index}].nombres=this.value;updatePreview();" style="width:150px;">
       ${Array.from({length:cantidadNotas}).map((_,i)=>`
-        <input type="number" placeholder="Nota ${i+1}" value="${stu.notas[i]||''}" oninput="updateStudentGrade(${index},${i},this.value)" style="width:70px;">
+        <input type="number" max="10" placeholder="Nota ${i+1}" value="${stu.notas[i]||''}" 
+        oninput="updateStudentGrade(${index},${i},this.value)" style="width:70px;">
       `).join('')}
+      <button onclick="removeStudent(${index})" style="margin-left:5px;color:red;">❌</button>
     `;
     container.appendChild(studentDiv);
   });
 }
 
-
 function addStudent() {
-  students.push({ nombre:'', notas:Array(cantidadNotas).fill('') });
+  students.push({apellidos:'', nombres:'', notas:Array(cantidadNotas).fill('')});
   rebuildStudentInputs();
   updatePreview();
 }
 
-
-function updateStudentName(index,value){
-  students[index].nombre=value;
+function removeStudent(index){
+  students.splice(index,1);
+  rebuildStudentInputs();
   updatePreview();
 }
 
-
 function updateStudentGrade(index,actividadIndex,value){
+  if(parseFloat(value)>10) value=10;
   students[index].notas[actividadIndex]=value;
   updatePreview();
 }
-
 
 function updatePreview(){
   const institucion=document.getElementById('institucion').value;
   const profesor=document.getElementById('profesor').value;
   const materia=document.getElementById('materia').value;
   const grado=document.getElementById('grado').value;
+  const seccion=document.getElementById('seccion').value;
   const fecha=document.getElementById('fecha').value;
 
+  const sortedStudents=[...students].sort((a,b)=>{
+    if(a.apellidos.toLowerCase()<b.apellidos.toLowerCase()) return -1;
+    if(a.apellidos.toLowerCase()>b.apellidos.toLowerCase()) return 1;
+    if(a.nombres.toLowerCase()<b.nombres.toLowerCase()) return -1;
+    if(a.nombres.toLowerCase()>b.nombres.toLowerCase()) return 1;
+    return 0;
+  });
 
   const tbody=document.querySelector('#preview-table tbody');
   tbody.innerHTML='';
-  students.forEach(stu=>{
+  sortedStudents.forEach(stu=>{
     const validNotas=stu.notas.map(n=>parseFloat(n)||0);
     const suma=validNotas.reduce((a,b)=>a+b,0);
     const promedio=(suma/validNotas.length).toFixed(2);
-
-
+    const nombreCompleto=`${stu.apellidos}, ${stu.nombres}`;
     const row=document.createElement('tr');
     row.innerHTML=`
-      <td>${institucion}</td>
-      <td>${profesor}</td>
-      <td>${materia}</td>
-      <td>${grado}</td>
-      <td>${fecha}</td>
-      <td>${stu.nombre}</td>
+      <td>${nombreCompleto}</td>
       ${stu.notas.map(n=>`<td>${n||''}</td>`).join('')}
       <td>${promedio}</td>
     `;
@@ -323,25 +322,22 @@ function updatePreview(){
   });
 }
 
-
-// Exportar a Excel
 function exportExcel(){
   const table=document.getElementById('preview-table');
   const wb=XLSX.utils.table_to_book(table,{sheet:"Calificaciones"});
   XLSX.writeFile(wb,'Calificaciones.xlsx');
 }
 
-
-// Exportar a PDF
 function exportPDF(){
   const element=document.getElementById('preview-section');
   html2pdf().from(element).save('Calificaciones.pdf');
 }
 
-
-// Inicializar headers al cargar
+// Inicializar
 updateHeaders();
+showSection('calificaciones', document.querySelector('nav a'));
 </script>
+
 
 
 </body>
